@@ -122,9 +122,9 @@ const SearchBooks = () => {
             : "Search for a book to begin"}
         </h2>
         <Row>
-          {searchedBooks.map((book) => {
+          {searchedBooks.map((book, i) => {
             return (
-              <Col md="4">
+              <Col key={i} md="4">
                 <Card key={book.bookId} border="dark">
                   {book.image ? (
                     <Card.Img

@@ -2,10 +2,12 @@
 const { User } = require('../models');
 // import sign token function from auth
 const { signToken } = require('../utils/auth');
+// imports an authentication error if we need one
 const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
+        // returns users data from a search of the database
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({_id: context.user._id}).select('-__v -password');
@@ -16,6 +18,7 @@ const resolvers = {
     },
 
     Mutation: {
+        // resolver to handle the login mutation, returns a token created with user data, and also returns the user data
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
             if (!user) {
@@ -28,6 +31,7 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+        // resolver to handle the addUser mutation, returns a token created with user data, and also returns the user data
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);

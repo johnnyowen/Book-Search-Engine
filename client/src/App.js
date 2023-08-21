@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SearchBooks from "./pages/SearchBooks";
 import SavedBooks from "./pages/SavedBooks";
-import Navbar from "./components/Navbar";
+import AppNavbar from "./components/Navbar";
 
 import {
   ApolloClient,
@@ -36,15 +36,15 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <>
-          <Navbar />
-          <Switch>
-            <Route path="/" component={SearchBooks} />
-            <Route path="/saved" component={SavedBooks} />
+          <AppNavbar />
+          <Routes>
+            <Route path="/" element={<SearchBooks/>} />
+            <Route path="/saved" element={<SavedBooks/>} />
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}
             />
-          </Switch>
+          </Routes>
         </>
       </Router>
     </ApolloProvider>

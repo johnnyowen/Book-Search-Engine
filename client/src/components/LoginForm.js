@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
 
-import Auth from '../utils/auth';
+import Auth from "../utils/auth";
 
-import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "../utils/mutations";
 
 const LoginForm = () => {
   const [validated] = useState(false);
@@ -27,10 +27,10 @@ const LoginForm = () => {
     }
   };
 
-  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [formState, setFormState] = useState({ email: "", password: "" });
 
   // update state based on form input changes
-  const handleInputChange = (event) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
 
     setFormState({
@@ -50,14 +50,14 @@ const LoginForm = () => {
         >
           Something went wrong with your login credentials!
         </Alert>
-        <Form.Group className="mb-3">
+        <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
             type="text"
             placeholder="Your email"
             name="email"
-            onChange={handleInputChange}
             value={formState.email}
+            onChange={handleChange}
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -71,8 +71,8 @@ const LoginForm = () => {
             type="password"
             placeholder="Your password"
             name="password"
-            onChange={handleInputChange}
             value={formState.password}
+            onChange={handleChange}
             required
           />
           <Form.Control.Feedback type="invalid">

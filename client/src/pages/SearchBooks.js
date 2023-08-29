@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
-
-import Auth from "../utils/auth";
-import { searchGoogleBooks } from "../utils/API";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
-
-import { useMutation } from "@apollo/client";
+import { searchGoogleBooks } from "../utils/API";
+import Auth from "../utils/auth";
 import { SAVE_BOOK } from "../utils/mutations";
-
+import { useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 
 const SearchBooks = () => {
@@ -26,7 +23,6 @@ const SearchBooks = () => {
         const { me } = cache.readQuery({
           query: GET_ME,
         });
-
         cache.writeQuery({
           query: GET_ME,
           data: {
@@ -72,6 +68,7 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || "",
+        link: book.volumeInfo.previewLink,
       }));
 
       setSearchedBooks(bookData);
@@ -85,7 +82,6 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log("bookToSave", bookToSave);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -171,6 +167,15 @@ const SearchBooks = () => {
                           : "Save this Book!"}
                       </Button>
                     )}
+                    <br/>
+                    <a
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    id="link"
+                    href={book.link}
+                  >
+                    {book.link == null ? 'No link available' : 'Link to google'}
+                  </a>
                   </Card.Body>
                 </Card>
               </Col>

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-
 import Auth from "../utils/auth";
-
-import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
 
 const SignupForm = () => {
+  // set state for form validation
   const [validated] = useState(false);
+  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+  // setting up the useMutation hook to add a new user
+  const [addUser] = useMutation(ADD_USER);
 
+  // set state for form values to be empty strings
   const [userFormData, setUserFormData] = useState({
     username: "",
     email: "",
@@ -17,20 +20,20 @@ const SignupForm = () => {
   });
 
   const handleInputChange = (event) => {
+    // grabs name and value of any of the input fields from the form
     const { name, value } = event.target;
+    // again using spread operator to update the user form with only the values that changed
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const [addUser] = useMutation(ADD_USER);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
     try {
+      // calling the addUser function from an Apollo Client mutation, using data from the form 
       const { data } = await addUser({
         variables: { ...userFormData },
       });
-      console.log(data);
+      // calling a login method on the Auth object and passing the login token as an argument
       Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);

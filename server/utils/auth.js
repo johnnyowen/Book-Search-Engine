@@ -5,13 +5,8 @@ const secret = "mysecretsshhhhh";
 const expiration = "2h";
 
 module.exports = {
-  signToken: function ({ username, email, _id }) {
-    const payload = { username, email, _id };
-  
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
   // function for our authenticated routes
-  authMiddleware: function ({req}) {
+  authMiddleware: function ({ req }) {
     // allows token to be sent via  req.query or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
 
@@ -21,7 +16,7 @@ module.exports = {
     }
 
     if (!token) {
-      return req
+      return req;
     }
 
     // verify token and get user data out of it
@@ -33,6 +28,12 @@ module.exports = {
     }
 
     // send to next endpoint
-    return req
+    return req;
+  },
+  // creating our JWT and returning it
+  signToken: function ({ username, email, _id }) {
+    const payload = { username, email, _id };
+
+    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };

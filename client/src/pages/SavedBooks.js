@@ -1,50 +1,31 @@
-import React from 'react';
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
+import React from "react";
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import Auth from "../utils/auth";
+import { removeBookId } from "../utils/localStorage";
 
-import { useQuery } from '@apollo/client';
-import { GET_ME } from '../utils/queries';
+import { useQuery } from "@apollo/client";
+import { GET_ME } from "../utils/queries";
 
-import { useMutation } from '@apollo/client';
-import { REMOVE_BOOK } from '../utils/mutations';
+import { useMutation } from "@apollo/client";
+import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
-  const [ deleteBook ] = useMutation(REMOVE_BOOK);
+  const [deleteBook] = useMutation(REMOVE_BOOK);
   const userData = data?.me || {};
-
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
 
     try {
       await deleteBook({
-        variables: { bookId }
-      })
-
+        variables: { bookId },
+      });
       removeBookId(bookId);
-      document.getElementById(bookId).remove();
-      let counterEl = document.getElementById('counter');
-      let currentNum = parseInt(counterEl.innerText.split(' ')[1]);
-      if (currentNum === 1){
-        return (counterEl.innerText = 'You have no saved books!');
-      } else {
-        counterEl.innerText = `Viewing ${currentNum - 1} saved ${
-          currentNum === 1 ? 'book' : 'books'
-        }`;
-      }
     } catch (err) {
       console.error(err);
     }
@@ -56,7 +37,7 @@ const SavedBooks = () => {
   }
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
@@ -70,10 +51,10 @@ const SavedBooks = () => {
             : "You have no saved books!"}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks.map((book, key) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border="dark">
+              <Col key={key} md="4">
+                <Card id={book.bookId} border="dark">
                   {book.image ? (
                     <Card.Img
                       src={book.image}

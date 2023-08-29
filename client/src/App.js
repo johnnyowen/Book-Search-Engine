@@ -12,10 +12,12 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+
 // a function from Apollo Client is used to create an HTTP link that is configured to send requests to the "/graphql" endpoint
 const httpLink = createHttpLink({
   uri: "/graphql",
 });
+
 // adds a header to each request that retrieves the id_token from the local storage and includes it in the authorization header as a bearer token (Bearer ${token})
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
@@ -26,6 +28,7 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
 // creating oout instance of Apollo Client
 const client = new ApolloClient({
   // authLink and httpLink are combined using concat() to create a single link that first applies the authorization headers and then sends the HTTP request

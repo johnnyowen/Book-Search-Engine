@@ -38,7 +38,7 @@ const startServer = async (typeDefs, resolvers) => {
   });
   // once database connection is established, start the server and log the endpoints 
   db.once("open", () => {
-    app.listen(PORT, () => {
+    app.listen(process.env.PORT ||PORT, () => {
       console.log(`🌍 API Now listening on localhost:${PORT}`);
       console.log(
         `🚀 GraphQL ready at http://localhost:${PORT}${server.graphqlPath}`

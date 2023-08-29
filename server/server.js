@@ -29,16 +29,16 @@ const startServer = async (typeDefs, resolvers) => {
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/build")));
   }
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
+  // app.get('/', (req, res) => {
+  //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  // });
   // route handles any GET request that doesn't match the previous route
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
   // once database connection is established, start the server and log the endpoints 
   db.once("open", () => {
-    app.listen(process.env.PORT ||PORT, () => {
+    app.listen(PORT, () => {
       console.log(`🌍 API Now listening on localhost:${PORT}`);
       console.log(
         `🚀 GraphQL ready at http://localhost:${PORT}${server.graphqlPath}`

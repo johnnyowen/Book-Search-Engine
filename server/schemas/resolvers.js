@@ -12,6 +12,7 @@ const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
+          // finds saved books from the user's saved books array and makes it available
           .populate("savedBooks");
         return userData;
       }

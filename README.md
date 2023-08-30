@@ -27,3 +27,8 @@ This repo is licensed under the MIT license. Click on the badge above for more i
 If there is any questions feel free to contact me through [GitHub](https://github.com/johnnyowen)
 
 ## Demo
+
+Check out the deployed app here! => https://book-search-jeo-a6a4d19b1479.herokuapp.com/
+
+![image](https://github.com/johnnyowen/Book-Search-Engine/assets/127053240/f197c5df-2420-445f-ae52-9f719221acd2)
+
